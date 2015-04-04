@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="br.com.sergioaugrod.savelocation.activity.LocalActivity">
+    <item android:id="@+id/action_editar" android:title="Editar"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_remover" android:title="Remover"
+        android:orderInCategory="101" app:showAsAction="never" />
+</menu>
