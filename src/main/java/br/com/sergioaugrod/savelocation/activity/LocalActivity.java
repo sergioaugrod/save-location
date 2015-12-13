@@ -6,12 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
@@ -19,7 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +27,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
 import java.util.List;
 
 import br.com.sergioaugrod.savelocation.R;
@@ -77,7 +72,7 @@ public class LocalActivity extends FragmentActivity {
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(enderecoReceiver, intentFilter);
         //SE TIVER CONEXAO COM A INTERNET INICIA A SERVICE PARA RECUPERAR AS INFORMACOES DA LOCALIDADE.
-        if(verificarConexao()) {
+        if (verificarConexao()) {
             startService(intentService);
         }
         setDescricao();
@@ -101,14 +96,14 @@ public class LocalActivity extends FragmentActivity {
         int id = item.getItemId();
         if (id == R.id.action_editar) {
             editarLocal();
-        } else if(id == R.id.action_remover) {
+        } else if (id == R.id.action_remover) {
             removerLocal();
         }
         return super.onOptionsItemSelected(item);
     }
 
     private boolean verificarConexao() {
-        ConnectivityManager cm =(ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting();
     }
 
@@ -149,7 +144,7 @@ public class LocalActivity extends FragmentActivity {
         }
         if (location != null) {
             latitudeAtual = location.getLatitude();
-            longitudeAtual  = location.getLongitude();
+            longitudeAtual = location.getLongitude();
         }
     }
 
@@ -193,7 +188,7 @@ public class LocalActivity extends FragmentActivity {
 
     private void criarNotificacao() {
         //Intent a ser executada quando se clicar na notificação.
-        Intent intent =  new Intent(Settings.ACTION_WIFI_SETTINGS);
+        Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
         //Informações da notificação.
         String tickerText = "SaveLocation";
         String titulo = "SaveLocation";
@@ -221,7 +216,7 @@ public class LocalActivity extends FragmentActivity {
     }
 
     public void onClickTracarRota(View view) {
-        if(verificarConexao()) {
+        if (verificarConexao()) {
             new RotaAsyncTask(this, mMap).execute(latitudeAtual, longitudeAtual, local.getLatitude(), local.getLongitude());
         } else {
             criarAlerta();
@@ -240,7 +235,6 @@ public class LocalActivity extends FragmentActivity {
         public void onReceive(Context c, Intent intent) {
             String cidade = intent.getStringExtra("cidade");
             String endereco = intent.getStringExtra("endereco");
-            Log.i("TRETA", "cidade=" + cidade);
             setEndereco(endereco, cidade);
         }
     }
